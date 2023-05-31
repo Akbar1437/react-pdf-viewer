@@ -1,3 +1,9 @@
+import { PdfViewer } from "./PdfViewer";
+
 export function App() {
-  return <div></div>;
+  return (
+    <div>
+      <PdfViewer />
+    </div>
+  );
 }
