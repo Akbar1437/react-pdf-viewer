@@ -3,8 +3,7 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import styles from "./pdf-viewer.styles.module.css";
 import samplePdf from "../public/sample.pdf";
-
-pdfjs.GlobalWorkerOptions.workerSrc = `/js/pdf.worker.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 export const PdfViewer = () => {
   // ---------------------------------------------------------------------------
@@ -106,8 +105,8 @@ export const PdfViewer = () => {
         </div>
 
         <div>
-          <i className={"fal fa-ellipsis-v"} />
-          <i className="fal fa-times" />
+          <i className={"fas fa-ellipsis-v"} />
+          <i className="fas fa-times" />
         </div>
       </div>
 
@@ -164,21 +163,27 @@ export const PdfViewer = () => {
       <div className={styles.footer}>
         <i className={"fal fa-cloud-download"} onClick={() => {}} />
         <div>
-          <i
-            className="fal fa-search-plus"
+          <button
+            className={styles.button}
             onClick={() => {
               if (zoom > 4) return;
               setZoom((prevZoom) => prevZoom * 1.2);
             }}
-          />
-          <i
-            className="fal fa-search-minus"
+          >
+            zoom in
+          </button>
+          <button
+            className={styles.button}
             onClick={() => {
               if (zoom < 0.5) return;
               setZoom((prevZoom) => prevZoom / 1.2);
             }}
-          />
-          <i className="fal fa-undo" onClick={() => setZoom(1)} />
+          >
+            zoomOut
+          </button>
+          <button className={styles.button} onClick={() => setZoom(1)}>
+            revert
+          </button>
         </div>
       </div>
     </div>
