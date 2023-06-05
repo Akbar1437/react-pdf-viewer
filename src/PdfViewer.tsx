@@ -61,13 +61,25 @@ export const PdfViewer = () => {
       }
     };
 
+    const handleWheelZoom = (event: WheelEvent) => {
+      if (event.ctrlKey || event.metaKey) {
+        event.preventDefault();
+        const newZoom = zoom + event.deltaY * -0.01;
+        if (newZoom > 0.5 && newZoom < 5) {
+          setZoom(newZoom);
+        }
+      }
+    };
+
     rightSideScrollRef.current.addEventListener("scroll", handleScroll);
+    rightSideScrollRef.current.addEventListener("wheel", handleWheelZoom);
     return () => {
       if (rightSideScrollRef.current) {
         rightSideScrollRef.current.removeEventListener("scroll", handleScroll);
+        rightSideScrollRef.current.addEventListener("wheel", handleWheelZoom);
       }
     };
-  }, []);
+  }, [zoom]);
 
   // ---------------------------------------------------------------------------
   // functions
