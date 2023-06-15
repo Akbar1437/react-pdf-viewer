@@ -37,14 +37,17 @@ export const PdfViewer = () => {
       if (!rightSideScrollRef.current || !leftSideScrollRef.current) return;
       const { scrollTop } = rightSideScrollRef.current;
 
-      const itemHeight = document.getElementsByClassName(styles.mainPage)[0]
-        .clientHeight;
+      const rightItemHeight =
+        document.getElementsByClassName(styles.mainPage)[0].clientHeight + 50
 
-      const newIndex = Math.floor(scrollTop / itemHeight);
+      const leftItemHight =
+        document.getElementsByClassName(styles.navPage)[0].clientHeight + 50
+
+      const newIndex = Math.floor(scrollTop / rightItemHeight)
 
       const totalPages = Math.ceil(
-        rightSideScrollRef.current.scrollHeight / itemHeight
-      );
+        rightSideScrollRef.current.scrollHeight / rightItemHeight,
+      )
 
       if (
         newIndex !== selectedIndex &&
@@ -53,11 +56,14 @@ export const PdfViewer = () => {
       ) {
         setSelectedIndex(newIndex);
         setPageNumber(newIndex + 1);
-        leftSideScrollRef.current.scrollTop = (newIndex * itemHeight) / 2;
+        leftSideScrollRef.current.scrollTop =
+            newIndex < totalPages / 2
+              ? leftItemHight * newIndex
+              : (rightItemHeight * newIndex) / 2
       } else {
         setSelectedIndex(newIndex);
         setPageNumber(newIndex + 1);
-        leftSideScrollRef.current.scrollTop = newIndex * itemHeight;
+         leftSideScrollRef.current.scrollTop = newIndex * leftItemHight
       }
     };
 
@@ -93,8 +99,8 @@ export const PdfViewer = () => {
   function onScrollRightSideToIndex(index: number) {
     if (!rightSideScrollRef.current || !leftSideScrollRef.current) return;
 
-    const itemHeight = document.getElementsByClassName(styles.mainPage)[0]
-      .clientHeight;
+    const itemHeight =
+        document.getElementsByClassName(styles.mainPage)[0].clientHeight + 50
     const scrollTop = index * itemHeight;
     rightSideScrollRef.current.scrollTop = scrollTop;
   }
